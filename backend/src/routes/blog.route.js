@@ -57,8 +57,24 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/", (req, res) => {
-  res.send("Hello from blog route");
+// get single blog by id
+router.get("/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await Blog.findById(postId);
+    if (!post) {
+      return res.status(404).send({ message: "Post not found" });
+    }
+
+    res.status(200).send({
+      post,
+    });
+  } catch (error) {
+    console.error("Error fetching single post: ", error);
+    res
+      .status(500)
+      .send({ message: "Error fetching single post. " + error.message });
+  }
 });
 
 module.exports = router;
