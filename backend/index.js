@@ -13,8 +13,10 @@ app.use(cors());
 //Routes
 
 const blogRoutes = require("./src/routes/blog.route");
+const commentRoutes = require("./src/routes/comment.route");
 
 app.use("/api/blogs", blogRoutes);
+app.use("/api/comments", commentRoutes);
 
 async function main() {
   await mongoose.connect(process.env.MONGODB_URL);
