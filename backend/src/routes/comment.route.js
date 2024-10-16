@@ -19,4 +19,17 @@ router.post("/post-comment", async (req, res) => {
   }
 });
 
+// get all comments count
+router.get("/total-comments", async (req, res) => {
+  try {
+    const totalComments = await Comment.countDocuments({});
+    res.status(200).send({ totalComments });
+  } catch (error) {
+    console.error("An error occured while getting comment count: ", error);
+    res
+      .status(500)
+      .send({ message: "An error occured while getting comment count" });
+  }
+});
+
 module.exports = router;
