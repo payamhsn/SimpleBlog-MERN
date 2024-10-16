@@ -19,6 +19,17 @@ router.post("/create-post", async (req, res) => {
   }
 });
 
+// get all blogs
+router.get("/", async (req, res) => {
+  try {
+    const posts = await Blog.find();
+    res.status(200).send(posts);
+  } catch (error) {
+    console.error("Error fetchin all post: ", error);
+    res.status(500).send({ message: "Error fetching all post" });
+  }
+});
+
 router.get("/", (req, res) => {
   res.send("Hello from blog route");
 });
