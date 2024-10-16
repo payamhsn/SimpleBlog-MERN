@@ -105,4 +105,22 @@ router.patch("/update-post/:id", async (req, res) => {
   }
 });
 
+// delete a blog post
+router.delete("/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await Blog.findByIdAndDelete(postId);
+    if (!post) {
+      return res.status(404).send({ message: "Post not found" });
+    }
+
+    res.status(200).send({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.error("Error fetching single post: ", error);
+    res
+      .status(500)
+      .send({ message: "Error fetching single post. " + error.message });
+  }
+});
+
 module.exports = router;
