@@ -77,4 +77,32 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// update a blog post
+router.patch("/update-post/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const updatePost = await Blog.findByIdAndUpdate(
+      postId,
+      {
+        ...req.body,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!updatePost) {
+      return res.status(404).send({ message: "Post not found" });
+    }
+
+    res.status(200).send({
+      message: "Post updated successfully",
+      post: updatePost,
+    });
+  } catch (error) {
+    console.error("Error updating post: ", error);
+    res.status(500).send({ message: "Error updating post" });
+  }
+});
+
 module.exports = router;
