@@ -10,6 +10,12 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
+//Routes
+
+const blogRoutes = require("./src/routes/blog.route");
+
+app.use("/api/blogs", blogRoutes);
+
 async function main() {
   await mongoose.connect(process.env.MONGODB_URL);
 }
