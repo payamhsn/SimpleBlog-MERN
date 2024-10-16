@@ -121,7 +121,12 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).send({ message: "Post not found" });
     }
 
-    res.status(200).send({ message: "Post deleted successfully" });
+    // delete related comments
+    await Comment.deleteMany({ postId });
+
+    res
+      .status(200)
+      .send({ message: "Post and related comments deleted successfully" });
   } catch (error) {
     console.error("Error fetching single post: ", error);
     res
