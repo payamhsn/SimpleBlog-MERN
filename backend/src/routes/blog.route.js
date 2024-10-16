@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const Blog = require("../model/blog.model");
+const Comment = require("../model/comment.model");
 
 // create a blog post
 router.post("/create-post", async (req, res) => {
@@ -65,9 +66,15 @@ router.get("/:id", async (req, res) => {
     if (!post) {
       return res.status(404).send({ message: "Post not found" });
     }
+    // get comments that belongs to this post
+    const comments = await Comment.find({ postId }).populate(
+      "user",
+      "username email"
+    );
 
     res.status(200).send({
       post,
+      comments,
     });
   } catch (error) {
     console.error("Error fetching single post: ", error);
