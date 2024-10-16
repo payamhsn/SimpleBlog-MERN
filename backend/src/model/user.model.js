@@ -35,6 +35,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// compare password when user tries to login
+userSchema.methods.comparePassword = function (givenPassword) {
+  return bcrypt.compare(givenPassword, this.password);
+};
+
 const User = model("User", userSchema);
 
 module.exports = User;
