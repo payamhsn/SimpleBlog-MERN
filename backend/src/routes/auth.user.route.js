@@ -72,4 +72,36 @@ router.post("/logout", async (req, res) => {
   }
 });
 
+// get all user
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find({}, "id email role");
+    res.status(200).send(users);
+  } catch (error) {
+    console.error("Error fetching users", error);
+    res.status(500).send({ message: "Failed to fetch users!" });
+  }
+});
+
+// delete a user
+router.delete("/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res.status(404).send({
+        message: "User is not found!",
+      });
+    }
+
+    res.status(200).send({
+      message: "User deleted successfully!",
+    });
+  } catch (error) {
+    console.error("Error deleting user", error);
+    res.status(500).send({ message: "Error deleting user!" });
+  }
+});
+
 module.exports = router;
