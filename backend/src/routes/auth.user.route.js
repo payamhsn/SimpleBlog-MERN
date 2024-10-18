@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const User = require("../model/user.model");
+const generateToken = require("../middleware/generateToken");
 
 // register new user
 router.post("/register", async (req, res) => {
@@ -34,10 +35,17 @@ router.post("/login", async (req, res) => {
       return res.status(401).send({ message: "Invalid Password!" });
     }
 
-    // todo : generate token here
+    // generate token here
+    const token = await generateToken(user._id);
+    res.cookie("token", token, {
+      httpOnly: true, // enable this only when you have https://
+      secure: true,
+      sameSite: "None",
+    });
 
     res.status(200).send({
       message: "Login successful!",
+      token,
       user: {
         _id: user._id,
         email: user.email,
