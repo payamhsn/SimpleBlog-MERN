@@ -5,11 +5,12 @@ const router = express.Router();
 const Blog = require("../model/blog.model");
 const Comment = require("../model/comment.model");
 const verifyToken = require("../middleware/verifyToken");
+const isAdmin = require("../middleware/isAdmin");
 
 // create a blog post
-router.post("/create-post", verifyToken, async (req, res) => {
+router.post("/create-post", verifyToken, isAdmin, async (req, res) => {
   try {
-    const newPost = new Blog({ ...req.body }); // use  (auhtor: req.userId) after token verification
+    const newPost = new Blog({ ...req.body, author: req.userId }); // use  (auhtor: req.userId) after token verification
     await newPost.save();
     res.status(201).send({
       message: "Post created successfully",

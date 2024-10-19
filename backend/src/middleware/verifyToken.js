@@ -6,13 +6,14 @@ const verifyToken = (req, res, next) => {
     // const token = req.cookies.token;
 
     //temp token
+
     const token = req.headers.authorization?.split(" ")[1]; // Bearer token
     if (!token) {
       return res.status(401).send({ message: "No token provided" });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
+    // console.log(decoded);
     if (!decoded.userId) {
       return res.status(401).send({ message: "Invalid token provided" });
     }
