@@ -4,9 +4,10 @@ const router = express.Router();
 
 const Blog = require("../model/blog.model");
 const Comment = require("../model/comment.model");
+const verifyToken = require("../middleware/verifyToken");
 
 // create a blog post
-router.post("/create-post", async (req, res) => {
+router.post("/create-post", verifyToken, async (req, res) => {
   try {
     const newPost = new Blog({ ...req.body }); // use  (auhtor: req.userId) after token verification
     await newPost.save();
@@ -88,7 +89,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // update a blog post
-router.patch("/update-post/:id", async (req, res) => {
+router.patch("/update-post/:id", verifyToken, async (req, res) => {
   try {
     const postId = req.params.id;
     const updatePost = await Blog.findByIdAndUpdate(
@@ -116,7 +117,7 @@ router.patch("/update-post/:id", async (req, res) => {
 });
 
 // delete a blog post
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Blog.findByIdAndDelete(postId);
