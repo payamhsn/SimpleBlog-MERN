@@ -32,6 +32,9 @@ const Navbar = () => {
               </NavLink>
             </li>
           ))}
+          <li>
+            <NavLink to="/login">Login</NavLink>
+          </li>
         </ul>
 
         {/* toogle menu */}
