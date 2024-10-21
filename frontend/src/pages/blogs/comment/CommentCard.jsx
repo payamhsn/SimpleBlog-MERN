@@ -6,6 +6,8 @@ import { formatDate } from "../../../utils/formatDate";
 import PostComment from "./PostComment";
 
 const CommentCard = ({ comments }) => {
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <div className="my-6 bg-white p-3 sm:p-8">
       <div>
