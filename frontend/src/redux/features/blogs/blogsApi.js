@@ -6,6 +6,7 @@ export const blogsApi = createApi({
     baseUrl: "http://localhost:3000/api/",
     credentials: "include",
   }),
+  tagTypes: ["Blogs"],
 
   endpoints: (builder) => ({
     fetchBlogs: builder.query({
@@ -20,11 +21,43 @@ export const blogsApi = createApi({
     fetchRelatedBlogs: builder.query({
       query: (id) => `blogs/related/${id}`,
     }),
+
+    postBlog: builder.mutation({
+      query: (newBlog) => ({
+        url: "/blogs/create-post",
+        method: "POST",
+        body: newBlog,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Blogs"],
+    }),
+
+    updateBlog: builder.mutation({
+      query: ({ id, ...rest }) => ({
+        url: `blogs/update-post/${id}`,
+        method: "PATCH",
+        body: rest,
+        credentials: "include",
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Blogs", id }],
+    }),
+
+    deleteBlog: builder.mutation({
+      query: (id) => ({
+        url: `blogs/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: (result, error, id) => [{ type: "Blogs", id }],
+    }),
   }),
 });
 
 export const {
   useFetchBlogsQuery,
   useFetchBlogByIdQuery,
+  usePostBlogMutation,
+  useUpdateBlogMutation,
+  useDeleteBlogMutation,
   useFetchRelatedBlogsQuery,
 } = blogsApi;
