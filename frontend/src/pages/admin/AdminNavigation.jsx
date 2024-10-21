@@ -9,6 +9,15 @@ const AdminNavigation = () => {
   const dispatch = useDispatch();
   const [logoutUser] = useLogoutUserMutation();
 
+  const handleLogout = async (s) => {
+    try {
+      await logoutUser().unwrap();
+      dispatch(logout());
+    } catch (err) {
+      console.error("Failed to logout:", err);
+    }
+  };
+
   return (
     <div className="space-y-5 bg-white p-8 md:h-[calc(100vh-98px)] flex flex-col justify-between">
       <div>
@@ -65,7 +74,10 @@ const AdminNavigation = () => {
 
       <div className="mb-3">
         <hr className="mb-3" />
-        <button className="text-white bg-red-500 font-medium px-5 py-1 rounded-sm">
+        <button
+          onClick={handleLogout}
+          className="text-white bg-red-500 font-medium px-5 py-1 rounded-sm"
+        >
           Logout
         </button>
       </div>

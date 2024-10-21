@@ -20,7 +20,6 @@ const AdminLayout = () => {
       </header>
 
       <main className="p-8 bg-white w-full">
-        <p>Contents here</p>
         <Outlet />
       </main>
     </div>
