@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,6 +16,9 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
 //Routes
 

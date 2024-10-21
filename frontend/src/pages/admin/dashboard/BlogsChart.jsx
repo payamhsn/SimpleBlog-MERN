@@ -22,7 +22,7 @@ const formatData = (blogs) => {
 
 const BlogsChart = ({ blogs }) => {
   const data = formatData(blogs);
-  console.log(data);
+
   return (
     <div className="p-6 bg-bgPrimary rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Blogs Chart</h2>
